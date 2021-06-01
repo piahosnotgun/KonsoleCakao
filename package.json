@@ -1,0 +1,34 @@
+{
+  "name": "konsolecakao",
+  "version": "1.0.0",
+  "description": "콘솔에서 사용하는 카카오톡 클라이언트",
+  "main": "main.ts",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node-kakao": "^4.2.3",
+    "readline": "^1.3.0",
+    "typescript": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^15.6.1"
+  },
+  "scripts": {
+    "test": "tsc test/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/Del-Los-Leones/KonsoleCakao.git"
+  },
+  "keywords": [
+    "kakaotalk"
+  ],
+  "author": "dellosleones, junspace",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Del-Los-Leones/KonsoleCakao/issues"
+  },
+  "homepage": "https://github.com/Del-Los-Leones/KonsoleCakao#readme"
+}
