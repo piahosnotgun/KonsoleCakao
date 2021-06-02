@@ -1,6 +1,5 @@
 import { TalkClient } from "node-kakao";
 import { Menu } from "menu/menu";
-import * as readline from "readline";
 
 export class Display {
 	private tc: TalkClient;
