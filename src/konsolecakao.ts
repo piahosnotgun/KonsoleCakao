@@ -27,15 +27,15 @@ export class KonsoleCakao {
 					throw new Error("디바이스 등록에 실패했습니다.");
 				}
 			}
-		}
-		loginRes = await api.login({
-    		email: this.userInfo.email,
-    		password: this.userInfo.password,
-    		forced: true,
-  		});
-		if(!loginRes.success){
-			//TODO: 로그인 실패 이유 구별.
-			throw new Error("로그인에 실패했습니다.");
+			loginRes = await api.login({
+    			email: this.userInfo.email,
+    			password: this.userInfo.password,
+    			forced: true,
+  			});
+			if(!loginRes.success){
+				//TODO: 로그인 실패 이유 구별.
+				throw new Error("로그인에 실패했습니다.");
+			}
 		}
   		console.log(`액세스 토큰을 받았습니다: ${loginRes.result.accessToken}`);
   		const res = await this.client.login(loginRes.result);
