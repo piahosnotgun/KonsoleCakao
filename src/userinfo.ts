@@ -17,13 +17,14 @@ export class UserInfo {
 			throw new Error("유저 정보가 정확하지 않습니다. deviceInfo.json의 정보를 수정해주세요.");
 		}
 		if(typeof data.uuid === undefined || data.uuid === ""){ // 유저 정보는 입력되었으나, uuid가 생성되지 않은 경우.
-			data.uuid = util.randomWin32DeviceUUID();
+			this.uuid = util.randomWin32DeviceUUID();
+		} else {
+			this.uuid = data.uuid;
 		}
 		//init userinfo
 		this.deviceName = data.deviceName;
 		this.email = data.email;
 		this.password = data.password;
-		this.uuid = data.uuid;
 		this.save();
 	}
 	save(){
