@@ -13,17 +13,17 @@ export class UserInfo {
 		let fileName = "./deviceInfo.json";
 		let file = fs.readFileSync(fileName, "utf-8");
 		let data = JSON.parse(file);
-		console.log(data);
 		if(data.deviceName === "" || data.password === "" || data.email === ""){
 			throw new Error("유저 정보가 정확하지 않습니다. deviceInfo.json의 정보를 수정해주세요.");
 		}
-		if(data.uuid === ""){ // 유저 정보는 입력되었으나, uuid가 생성되지 않은 경우.
-			this.uuid = util.randomWin32DeviceUUID();
+		if(typeof data.uuid === undefined || data.uuid === ""){ // 유저 정보는 입력되었으나, uuid가 생성되지 않은 경우.
+			data.uuid = util.randomWin32DeviceUUID();
 		}
 		//init userinfo
 		this.deviceName = data.deviceName;
 		this.email = data.email;
 		this.password = data.password;
+		this.uuid = data.uuid;
 		this.save();
 	}
 	save(){
