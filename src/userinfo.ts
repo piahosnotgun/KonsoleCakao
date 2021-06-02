@@ -19,7 +19,6 @@ export class UserInfo {
 		}
 		if(data.uuid === ""){ // 유저 정보는 입력되었으나, uuid가 생성되지 않은 경우.
 			this.uuid = util.randomWin32DeviceUUID();
-			console.log(this.uuid);
 		}
 		//init userinfo
 		this.deviceName = data.deviceName;
