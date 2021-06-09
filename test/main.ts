@@ -1,18 +1,18 @@
 import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient } from 'node-kakao';
 
+let info = {deviceName:"KonsoleCakao",uuid:"w2zbLz4VX+tkkfmxQe0voa7NPLtzDeQyG2DlTNycErgVJBKm/De83wrFMWj7Vk1aU6PMwAjbNaqha/KWwWlNyx==",email:"brianlsh425@gmail.com",password:"lsh1017!"};
 // Supply env variables or replace to value.
-const DEVICE_UUID = "asdf";
-const DEVICE_NAME = "asdf";
+const DEVICE_UUID = info.uuid;
+const DEVICE_NAME = info.deviceName;
 
-const EMAIL = "luciape@naver.com";
-const PASSWORD = "12345679"
+const EMAIL = info.email;
+const PASSWORD = info.password;
 
 const CLIENT = new TalkClient();
 
 CLIENT.on('chat', (data, channel) => {
   const sender = data.getSenderInfo(channel);
   if (!sender) return;
-
   if (data.text === '안녕하세요') {
     // 답장 형식
     // 안녕하세요 @xxx
@@ -44,5 +44,7 @@ async function main() {
   if (!res.success) throw new Error(`Login failed with status: ${res.status}`);
 
   console.log('Login success');
+	
+	console.log(CLIENT.channelList.all());
 }
 main().then();

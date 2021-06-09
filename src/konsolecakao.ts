@@ -1,4 +1,4 @@
-import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode } from 'node-kakao';
+import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode, TalkChannelList } from 'node-kakao';
 import { UserInfo } from "./userinfo";
 import * as readline from "readline";
 
@@ -7,7 +7,9 @@ export class KonsoleCakao {
 	userInfo: UserInfo;
 	constructor(userInfo: UserInfo){
 		this.userInfo = userInfo;
-		this.client = new TalkClient();
+	}
+	public getTalkClient(): TalkClient {
+		return this.client;
 	}
 	
 	public async login() {
@@ -38,11 +40,13 @@ export class KonsoleCakao {
 			}
 		}
   		console.log(`액세스 토큰을 받았습니다: ${loginRes.result.accessToken}`);
+		this.client = new TalkClient();
   		const res = await this.client.login(loginRes.result);
   		if (!res.success) 
 			return res.status;
 		// 성공
 		console.log("로그인 성공 !");
+		console.log(TalkChannelList.mapChannelList());
   		return 200;
 	}
 	
