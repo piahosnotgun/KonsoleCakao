@@ -1,4 +1,4 @@
-import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode, TalkChannelList } from 'node-kakao';
+import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode } from 'node-kakao';
 import { UserInfo } from "./userinfo";
 import * as readline from "readline";
 
@@ -46,7 +46,6 @@ export class KonsoleCakao {
 			return res.status;
 		// 성공
 		console.log("로그인 성공 !");
-		console.log(TalkChannelList.mapChannelList());
   		return 200;
 	}
 	
