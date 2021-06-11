@@ -87,9 +87,9 @@ export class Main {
             let name = sender.nickname;
 			let channelName = channel.getName();
 			if(! channelName){
-				channelName = sender;
+				channelName = name;
 			}
-			Logger.logChat(channelName, data.text, sender, channelId);
+			Logger.logChat(channelName, data.text, name, channelId);
         });
     }
 }
