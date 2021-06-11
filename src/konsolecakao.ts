@@ -1,6 +1,7 @@
 import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode } from 'node-kakao';
 import { UserInfo } from "./userinfo";
 import * as readline from "readline";
+import { Logger } from "./logger";
 
 export class KonsoleCakao {
 	client: TalkClient;
@@ -13,7 +14,7 @@ export class KonsoleCakao {
 	}
 	
 	public async login() {
-		console.log("로그인 중..");
+		Logger.notice("로그인 중..");
 		const api = await AuthApiClient.create(this.userInfo.deviceName, this.userInfo.uuid);
 		let loginRes = await api.login({
     		email: this.userInfo.email,
@@ -23,7 +24,7 @@ export class KonsoleCakao {
   		if (!loginRes.success) {
 			// 디바이스가 등록되지 않은 경우
 			if(loginRes.status === KnownAuthStatusCode.DEVICE_NOT_REGISTERED){
-				console.log('디바이스가 등록되지 않았습니다. 카카오톡에서 디바이스 인증번호를 확인한 후 입력해주세요.')
+				Logger.notice('디바이스가 등록되지 않았습니다. 카카오톡에서 디바이스 인증번호를 확인한 후 입력해주세요.')
 				let registerRes = await this.register(api);
 				if(registerRes !== 200){
 					throw new Error("디바이스 등록에 실패했습니다.");
@@ -39,13 +40,13 @@ export class KonsoleCakao {
 				throw new Error("로그인에 실패했습니다.");
 			}
 		}
-  		console.log(`액세스 토큰을 받았습니다: ${loginRes.result.accessToken}`);
+  		Logger.notice(`액세스 토큰을 받았습니다: ${loginRes.result.accessToken}`);
 		this.client = new TalkClient();
   		const res = await this.client.login(loginRes.result);
   		if (!res.success) 
 			return res.status;
 		// 성공
-		console.log("로그인 성공 !");
+		Logger.success("로그인 성공");
   		return 200;
 	}
 	

@@ -1,6 +1,7 @@
 import { util } from "node-kakao";
 import * as fs from "fs";
 import * as readline from "readline";
+import { Logger } from "./logger";
 
 export class UserInfo {
 	uuid: string;
@@ -35,7 +36,7 @@ export class UserInfo {
 			password: this.password
 		});
 		fs.writeFile("./deviceInfo.json", data, "utf-8", () => {
-			console.log("디바이스 정보가 저장되었습니다.");
+			Logger.info("디바이스 정보가 저장되었습니다.");
 		})
 	}
 }
