@@ -50,11 +50,20 @@ export class Main {
         this.currentChannel.sendChat(line);
     }
     handleCommand(cmd: string, args: string[]) {
+		let channelList = this.cl.channelList;
         if (cmd === '/채널목록') {
-            let msg = '채팅 가능한 채널 목록: ';
-			for(let key in this.channels){
-				let value = this.channels[key];
-                msg += key + ', ';
+			let msg = '채팅 가능한 채널 목록: ';
+			// for(let key in this.channels){
+			// 	let value = this.channels[key];
+			// msg += key + ', ';
+			// }
+			let it = channelList.all();
+			var result = it.next();
+			while (!result.done) {
+				let channel = result.value;
+				let channelId = channel.channelId.toString();
+				msg += this.getChannelName(channel) + "(" + channelId + ")" + ", ";
+				result = it.next();
 			}
             Logger.info(msg);
             return;
@@ -65,11 +74,19 @@ export class Main {
                 return;
             }
             let channelId = Long.fromString(args[0]);
-			let key = channelId.toString();
-            if (typeof this.channels[key] !== "undefined") {
-                this.currentChannel = this.channels[key];
-                Logger.notice('채널이 전환되었습니다: ' + key);
-            } else Logger.notice('존재하지 않는 채널입니다. 채널id를 확인하신 후 다시 시도해주세요.');
+			let channel = channelList.get(channelId);
+			if(channel === undefined){
+				Logger.notice("존재하지 않는 채널입니다. 채널id를 확인하신 후 다시 시도해주세요.");
+				return;
+			}
+			this.currentChannel = channel;
+			Logger.notice('채널이 전환되었습니다: ' + this.getChannelName(channel));
+			
+			// let key = channelId.toString();
+			// if (typeof this.channels[key] !== "undefined") {
+			// this.currentChannel = this.channels[key];
+			// Logger.notice('채널이 전환되었습니다: ' + key);
+			// } else Logger.notice('존재하지 않는 채널입니다. 채널id를 확인하신 후 다시 시도해주세요.');
             return;
         }
     }
@@ -79,18 +96,27 @@ export class Main {
         this.cl.on('chat', (data, channel) => {
             let channelId = channel.channelId;
 			let key = channelId.toString();
-            if (typeof this.channels[key] === "undefined") {
-				this.channels[key] = channel;
-                Logger.notice('채널이 추가되었습니다: ' + key);
-            }
+				// if (typeof this.channels[key] === "undefined") {
+				// this.channels[key] = channel;
+				// Logger.notice('채널이 추가되었습니다: ' + key);
+				// }
             let sender = data.getSenderInfo(channel);
             let name = sender.nickname;
-			let channelName = channel.getName();
-			if(! channelName){
-				channelName = name;
-			}
+			let channelName = this.getChannelName(channel);
 			Logger.logChat(channelName, data.text, name, channelId);
         });
     }
+	getChannelName(channel: TalkChannel): string{
+		let channelName = channel.getName();
+		let userList = channel.getAllUserInfo();
+		if(! channelName){
+   			let list = [];
+    		for (let user of userList) {
+      			list.push(user.nickname);
+    			channelName = list.join(', ');
+  			}
+		}
+		return channelName;
+	}
 }
 let main = new Main();

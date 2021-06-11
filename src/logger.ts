@@ -2,7 +2,7 @@ import * as chalk from "chalk";
 import { Long } from "bson";
 export class Logger {
 	static logChat(channelName: string, chat: string, sender: string, channelId: Long){
-		Logger.log("[" + chalk.yellow(channelName) + "] " + sender + "(" + channelId.toString() + "):" + chat);
+		Logger.log("[" + chalk.yellow(channelName) + "] " + sender + "(" + channelId.toString() + "): " + chat);
 	}
 	static info(line: string){
 		Logger.log(chalk.cyan("[정보] ") + line);
