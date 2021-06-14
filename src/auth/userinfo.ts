@@ -1,7 +1,7 @@
 import { util } from "node-kakao";
 import * as fs from "fs";
 import * as readline from "readline";
-import { Logger } from "./logger";
+import { Logger } from "../utils";
 
 export class UserInfo {
 	uuid: string;

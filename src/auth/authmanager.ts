@@ -1,9 +1,9 @@
 import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent, TalkClient, KnownAuthStatusCode } from 'node-kakao';
 import { UserInfo } from "./userinfo";
 import * as readline from "readline";
-import { Logger } from "./logger";
+import { Logger } from '../utils';
 
-export class KonsoleCakao {
+export class AuthManager {
 	client: TalkClient;
 	userInfo: UserInfo;
 	constructor(userInfo: UserInfo){
