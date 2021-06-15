@@ -11,24 +11,10 @@ export class Display {
     }
     init() {
         this.screen = blessed.screen({
+			key: true,
             autoPadding: true,
             fullUnicode: true,
             forceUnicode: true,
         });
-        let box = blessed.box({
-            width: '100%',
-            height: 3,
-            content: 'KonsoleCakao / ' + this.name,
-            tags: true,
-            border: {
-                type: 'line',
-            },
-            style: {
-                border: {
-                    fg: 'yellow',
-                },
-            },
-        });
-		this.screen.append(box);
     }
 }
