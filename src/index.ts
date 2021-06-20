@@ -11,21 +11,21 @@ export class KonsoleCakao {
 
     private displayManager: DisplayManager;
 	
-	private static rl = null;
+	static rl = null;
 
     constructor() {
         this.displayManager = new DisplayManager(this);
         this.userInfo = new UserInfo();
         this.authManager = new AuthManager(this.userInfo);
-		this.rl = readline.createInterface({
+		KonsoleCakao.rl = readline.createInterface({
     		input: process.stdin,
     		output: process.stdout,
 		});
 
         this.authManager.login().then(() => {
-			this.talkClient = this.authManager.getTalkClient();
+			KonsoleCakao.talkClient = this.authManager.getTalkClient();
             this.initMain();
-            this.talkClient.on('chat', (data, channel) => {
+            KonsoleCakao.talkClient.on('chat', (data, channel) => {
                 let chat = data.text;
                 let sender = data.getSenderInfo(channel);
                 if (typeof DisplayManager.current.channel.channelId === 'undefined') return;

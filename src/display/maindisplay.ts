@@ -27,7 +27,7 @@ export class MainDisplay extends Display {
 				}
 				let channel = indexedList[num];
 				let channelDisplay = new ChannelDisplay(channel);
-				DisplayManager.switch(channelDisplay);
+				DisplayManager.getInstance().switch(channelDisplay);
 			} catch(e){
 				Logger.notice('올바른 숫자를 입력해주세요.');
 				return;

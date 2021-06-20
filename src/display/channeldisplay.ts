@@ -7,7 +7,6 @@ import * as readline from 'readline';
 
 export class ChannelDisplay extends Display {
 	private _channel: TalkChannel;
-	private rl: any;
 	constructor(channel: TalkChannel){
 		super('채팅방');
 		this._channel = channel
@@ -17,7 +16,6 @@ export class ChannelDisplay extends Display {
 		Logger.info('채팅방에 입장하셨습니다.');
 		this.rl.on('line', (line) => {
 			if(line === '/q'){
-				this.screen.destroy();
 				let display = new MainDisplay();
 				DisplayManager.getInstance().switch(display);
 			} else {
