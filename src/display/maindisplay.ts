@@ -1,6 +1,7 @@
 import { Display, ChannelDisplay, DisplayManager } from './';
 import { KonsoleCakao } from '../';
 import { ChannelInfo, Logger } from '../utils';
+import * as chalk from 'chalk';
 
 export class MainDisplay extends Display {
     constructor() {
@@ -9,7 +10,8 @@ export class MainDisplay extends Display {
     init() {
         super.init();
 		let channelList = this.getChannelList();
-		let msg = '접속할 채팅방을 선택해주세요. (번호 입력)\n';
+		console.log('\x1B[2J');
+		let msg = chalk.yellow('접속할 채팅방을 선택해주세요. (번호 입력)\n\n');
 		let i = 0;
 		let indexedList = [];
 		for(let channelId in channelList){
@@ -18,6 +20,7 @@ export class MainDisplay extends Display {
 			msg += "[" + (i++) +"] " + channelName + "\n";
 			indexedList.push(channel);
 		}
+		console.log(msg);
 		this.rl.on('line', (line) => {
 			try {
 				let num = Number(line);

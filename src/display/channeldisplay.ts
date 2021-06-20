@@ -2,7 +2,7 @@ import { Display } from './display';
 import { TalkChannel } from 'node-kakao';
 import { MainDisplay } from './maindisplay';
 import { DisplayManager } from './displaymanager';
-import { Logger } from '../utils';
+import { Logger, ChannelInfo } from '../utils';
 import * as readline from 'readline';
 
 export class ChannelDisplay extends Display {
@@ -13,14 +13,19 @@ export class ChannelDisplay extends Display {
 	}
 	init(){
 		super.init();
+		console.log('\x1B[2J');
 		Logger.info('채팅방에 입장하셨습니다.');
 		this.rl.on('line', (line) => {
 			if(line === '/q'){
+				console.log('\x1B[2J');
 				let display = new MainDisplay();
 				DisplayManager.getInstance().switch(display);
 			} else {
 				this.sendChat(line);
+				console.log('\x1B[2A');
+				Logger.logChat(ChannelInfo.getChannelName(this._channel), line, "당신");
 			}
+			this.rl.prompt();
 		});
 	}
 	

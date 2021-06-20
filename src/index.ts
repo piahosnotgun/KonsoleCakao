@@ -21,6 +21,7 @@ export class KonsoleCakao {
     		input: process.stdin,
     		output: process.stdout,
 		});
+		KonsoleCakao.rl.setPrompt("> ");
 
         this.authManager.login().then(() => {
 			KonsoleCakao.talkClient = this.authManager.getTalkClient();

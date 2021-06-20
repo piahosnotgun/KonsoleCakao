@@ -44,8 +44,10 @@ export class AuthManager {
   		Logger.notice(`액세스 토큰을 받았습니다: ${loginRes.result.accessToken}`);
 		this.client = new TalkClient();
   		const res = await this.client.login(loginRes.result);
-  		if (!res.success) 
+  		if (!res.success) {
+			console.log(res.status);
 			return res.status;
+		}
 		// 성공
 		Logger.success("로그인 성공");
   		return 200;
