@@ -34,7 +34,7 @@ export class MainDisplay extends Display {
 			}
 		});
     }
-    getChannelList()) {
+    getChannelList() {
         // channelId => chatList
         let client = KonsoleCakao.talkClient;
         let channelList = client.channelList;
