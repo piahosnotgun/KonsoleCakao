@@ -2,6 +2,7 @@ import { AuthApiClient, ChatBuilder, KnownChatType, MentionContent, ReplyContent
 import { UserInfo } from "./userinfo";
 import * as readline from "readline";
 import { Logger } from '../utils';
+import { KonsoleCakao } from '../';
 
 export class AuthManager {
 	client: TalkClient;
@@ -58,10 +59,7 @@ export class AuthManager {
   		};
   		const passcodeRes = await api.requestPasscode(form);
   		if (!passcodeRes.success) throw new Error(`인증번호 요청에 실패했습니다. 에러 코드: ${passcodeRes.status}`);
-  		const inputInterface = readline.createInterface({
-    		input: process.stdin,
-    		output: process.stdout,
-		});
+  		const inputInterface = KonsoleCakao.rl;
   		const passcode = await new Promise<string>((resolve) => inputInterface.question('인증번호: ', resolve));
   		inputInterface.close();
   		const registerRes = await api.registerDevice(form, passcode, true);

@@ -1,7 +1,6 @@
-import { Display } from './display';
+import { Display, ChannelDisplay, DisplayManager } from './';
 import { KonsoleCakao } from '../';
-import { ChannelInfo } from '../utils';
-import * as blessed from 'blessed';
+import { ChannelInfo, Logger } from '../utils';
 
 export class MainDisplay extends Display {
     constructor() {
@@ -9,76 +8,33 @@ export class MainDisplay extends Display {
     }
     init() {
         super.init();
-        let container = blessed.box({
-            parent: this.screen,
-            top: 1,
-            width: '100%',
-            height: '90%',
-            padding: {
-                top: 1,
-            },
-            content: 'KonsoleCakao / ' + this.name,
-            border: {
-                type: 'line',
-            },
-            style: {
-                border: {
-                    fg: 'yellow',
-                },
-            },
-        });
-        let boxes = [];
-        let focusedIndex = 0;
-        let i = 0;
-        let list = this.getChatList();
-        for (let channelId in list) {
-            let channel = list[channelId];
-            let chatbox = blessed.button({
-                parent: container,
-                mouse: true,
-                keys: true,
-                width: 30,
-                height: 3,
-                top: i * 3 + 1,
-                name: channelId,
-                content: ChannelInfo.getChannelName(channel),
-                tags: true,
-                border: {
-                    type: 'line',
-                },
-                style: {
-                    focus: {
-                        bg: 'yellow',
-                    },
-                    border: {
-                        fg: 'yellow',
-                    },
-                },
-            });
-            boxes.push(chatbox);
-            container.append(chatbox);
-            chatbox.on('press', () => {
-                container.setContent(chatbox.getContent() + ' 클릭됨');
-            });
-            i++;
-        }
-        boxes[focusedIndex].focus();
-        this.screen.key('up', () => {
-            if (focusedIndex === 0) return;
-            boxes[--focusedIndex].focus();
-        });
-        this.screen.key('down', () => {
-            if (focusedIndex + 1 >= boxes.length) {
-                return;
-            }
-            boxes[++focusedIndex].focus();
-        });
-        this.screen.key('enter', () => {
-            boxes[focusedIndex].press();
-        });
-        this.screen.render();
+		let channelList = this.getChannelList();
+		let msg = '접속할 채팅방을 선택해주세요. (번호 입력)\n';
+		let i = 0;
+		let indexedList = [];
+		for(let channelId in channelList){
+			let channel = channelList[channelId];
+            let channelName = ChannelInfo.getChannelName(channel);
+			msg += "[" + (i++) +"] " + channelName + "\n";
+			indexedList.push(channel);
+		}
+		this.rl.on('line', (line) => {
+			try {
+				let num = Number(line);
+				if(typeof indexedList[num] === 'undefined'){
+					Logger.notice('채팅방이 존재하지 않습니다. 올바른 번호를 입력해주세요.');
+					return;
+				}
+				let channel = indexedList[num];
+				let channelDisplay = new ChannelDisplay(channel);
+				DisplayManager.switch(channelDisplay);
+			} catch(e){
+				Logger.notice('올바른 숫자를 입력해주세요.');
+				return;
+			}
+		});
     }
-    getChatList() {
+    getChannelList()) {
         // channelId => chatList
         let client = KonsoleCakao.talkClient;
         let channelList = client.channelList;
@@ -88,11 +44,9 @@ export class MainDisplay extends Display {
         while (!result.done) {
             let channel = result.value;
             let channelId = channel.channelId.toString();
-            let channelName = ChannelInfo.getChannelName(channel);
             ret[channelId] = channel;
             result = it.next();
         }
-        console.log(ret);
         return ret;
     }
 }

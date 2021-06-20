@@ -1,20 +1,16 @@
-import * as blessed from 'blessed';
+import { KonsoleCakao } from '../';
 
 export class Display {
     private _name: string;
-    protected screen;
+	protected rl;
     constructor(name: string) {
         this._name = name;
+		this.rl = KonsoleCakao.rl;
     }
     get name() {
         return this._name;
     }
     init() {
-        this.screen = blessed.screen({
-			key: true,
-            autoPadding: true,
-            fullUnicode: true,
-            forceUnicode: true,
-        });
+		this.rl.removeAllListeners('line');
     }
 }

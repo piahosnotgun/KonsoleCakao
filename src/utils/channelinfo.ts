@@ -2,7 +2,7 @@ import { TalkChannel } from 'node-kakao';
 
 export class ChannelInfo {
 	static getChannelName(channel: TalkChannel): string{
-		let channelName = channel.getName();
+		let channelName = channel.getDisplayName();
 		let userList = channel.getAllUserInfo();
 		if(! channelName){
    			let list = [];
